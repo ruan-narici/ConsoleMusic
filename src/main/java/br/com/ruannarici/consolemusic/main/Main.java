@@ -28,6 +28,7 @@ public class Main {
                     break;
                 }
                 case 3: {
+                    listArtist();
                     break;
                 }
                 case 4: {
@@ -55,5 +56,9 @@ public class Main {
 
         Artist artist = new Artist(artistName, ECategory.fromString(categoryName));
         artistList.add(artist);
+    }
+
+    private void listArtist() {
+        this.artistList.forEach(System.out::println);
     }
 }
