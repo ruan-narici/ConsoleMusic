@@ -14,9 +14,8 @@ public class Music {
 
     public Music() {}
 
-    public Music(String name, Artist artist) {
+    public Music(String name) {
         this.name = name;
-        this.artist = artist;
     }
 
     public Long getId() {

@@ -56,4 +56,10 @@ public class Artist {
         music.setArtist(this);
         this.musicList.add(music);
     }
+
+    @Override
+    public String toString() {
+        return "Nome: " + this.name +
+                ", Categoria: " + this.category;
+    }
 }

@@ -2,9 +2,11 @@ package br.com.ruannarici.consolemusic.main;
 
 import br.com.ruannarici.consolemusic.model.Artist;
 import br.com.ruannarici.consolemusic.model.ECategory;
+import br.com.ruannarici.consolemusic.model.Music;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -13,6 +15,7 @@ public class Main {
     private List<Artist> artistList = new ArrayList<>();
 
     public void run() {
+        System.out.println("WELCOME TO THE *CONSOLE MUSIC*");
         Integer option = -1;
         while (option != 0) {
             showMenu();
@@ -25,6 +28,7 @@ public class Main {
                     break;
                 }
                 case 2: {
+                    registerMusic();
                     break;
                 }
                 case 3: {
@@ -39,7 +43,6 @@ public class Main {
     }
 
     private void showMenu() {
-        System.out.println("WELCOME TO THE *CONSOLE MUSIC*");
         System.out.println("[MENU]");
         System.out.println("1 - REGISTER NEW ARTIST");
         System.out.println("2 - REGISTER NEW MUSIC");
@@ -56,6 +59,25 @@ public class Main {
 
         Artist artist = new Artist(artistName, ECategory.fromString(categoryName));
         artistList.add(artist);
+    }
+
+    private void registerMusic() {
+        System.out.println("Type the music name: ");
+        String musicName = reader.nextLine();
+        System.out.println("Type artist name: ");
+        String artistName = reader.nextLine();
+
+        Optional<Artist> artist = this.artistList.stream()
+                .filter(a -> a.getName().toLowerCase().contains(artistName.toLowerCase()))
+                .findFirst();
+
+        if (artist.isPresent()) {
+            Music music = new Music(musicName);
+            artist.get().addMusic(music);
+            return;
+        }
+
+        System.out.println("| # _ # | - Artist Not Found!");
     }
 
     private void listArtist() {
