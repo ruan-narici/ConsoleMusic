@@ -9,6 +9,13 @@ public class Artist {
     private ECategory category;
     private List<Music> musicList;
 
+    public Artist() {}
+
+    public Artist(String name, ECategory eCategory) {
+        this.name = name;
+        this.category = eCategory;
+    }
+
     public Long getId() {
         return id;
     }
