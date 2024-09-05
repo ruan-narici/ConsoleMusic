@@ -36,6 +36,7 @@ public class Main {
                     break;
                 }
                 case 4: {
+                    listMusic();
                     break;
                 }
             }
@@ -82,5 +83,12 @@ public class Main {
 
     private void listArtist() {
         this.artistList.forEach(System.out::println);
+    }
+
+    private void listMusic() {
+        this.artistList.stream()
+                .flatMap(a -> a.getMusicList().stream()
+                        .map(m -> m))
+                .forEach(System.out::println);
     }
 }
