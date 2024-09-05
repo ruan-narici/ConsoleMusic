@@ -3,16 +3,19 @@ package br.com.ruannarici.consolemusic.main;
 import br.com.ruannarici.consolemusic.model.Artist;
 import br.com.ruannarici.consolemusic.model.ECategory;
 import br.com.ruannarici.consolemusic.model.Music;
+import br.com.ruannarici.consolemusic.repository.ArtistRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
 
     private Scanner reader = new Scanner(System.in);
-    private List<Artist> artistList = new ArrayList<>();
+    private ArtistRepository artistRepository;
+
+    public Main(ArtistRepository artistRepository) {
+        this.artistRepository = artistRepository;
+    }
 
     public void run() {
         System.out.println("WELCOME TO THE *CONSOLE MUSIC*");
@@ -59,7 +62,7 @@ public class Main {
         String categoryName = reader.nextLine();
 
         Artist artist = new Artist(artistName, ECategory.fromString(categoryName));
-        artistList.add(artist);
+        this.artistRepository.save(artist);
     }
 
     private void registerMusic() {
@@ -68,13 +71,12 @@ public class Main {
         System.out.println("Type artist name: ");
         String artistName = reader.nextLine();
 
-        Optional<Artist> artist = this.artistList.stream()
-                .filter(a -> a.getName().toLowerCase().contains(artistName.toLowerCase()))
-                .findFirst();
+        Optional<Artist> artist = this.artistRepository.searchByName(artistName);
 
         if (artist.isPresent()) {
             Music music = new Music(musicName);
             artist.get().addMusic(music);
+            this.artistRepository.save(artist.get());
             return;
         }
 
@@ -82,11 +84,11 @@ public class Main {
     }
 
     private void listArtist() {
-        this.artistList.forEach(System.out::println);
+        this.artistRepository.findAll().forEach(System.out::println);
     }
 
     private void listMusic() {
-        this.artistList.stream()
+        this.artistRepository.findAll().stream()
                 .flatMap(a -> a.getMusicList().stream()
                         .map(m -> m))
                 .forEach(System.out::println);
