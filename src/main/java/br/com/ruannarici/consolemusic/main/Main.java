@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class Main {
 
+
     private Scanner reader = new Scanner(System.in);
     private ArtistRepository artistRepository;
 
